@@ -7,7 +7,6 @@ html,body{
     height:100%;
     /*text-align: center;*/
     background-color: #ffc5b3;
-    v :absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
@@ -17,6 +16,11 @@ html,body{
     -o-transform:translate(-50%,-50%);
     background-image: radial-gradient(#ffeded, #ffc7c7);
 }
+
+html,body{
+    position :absolute;
+}
+
 .textCon{
     -webkit-user-select: none;
     -moz-user-select: none;
