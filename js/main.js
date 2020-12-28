@@ -3,12 +3,12 @@ function beginImages() {
 }
 
 function makeLargeShape() {
-    var mainDiv = document.getElementsByClassName('main')[0];
+    var mainDiv = document.getElementsByClassName('image_bg')[0];
     var rows = 13, columns = 30;
     var totalWidth = mainDiv.offsetWidth;
     var totalHeight = mainDiv.offsetHeight;
     var imageWidth = Math.floor(totalWidth / columns) - 10,
-        imageHeight = Math.floor(totalHeight / rows) - 15;
+        imageHeight = Math.floor(totalHeight / rows) - 10;
 
     // var rows = Math.floor(totalHeight / (imageHeight + 2));
     // var columns = Math.floor(totalWidth / (imageWidth + 5));
@@ -36,7 +36,7 @@ function makeLargeShape() {
 }
 
 function beginTyping() {
-    var contentDiv = document.getElementsByClassName('textContent')[0];
+    var contentDiv = document.getElementsByClassName('text_bg')[0];
     var content, lineEl;
 
     function typing() {
@@ -68,7 +68,7 @@ function beginTyping() {
 }
 
 function initStars() {
-    var mainDiv = document.getElementsByClassName('main')[0];
+    var mainDiv = document.getElementsByClassName('start_bg')[0];
     var totalWidth = mainDiv.offsetWidth;
     var count = totalWidth / 60 * 6;
 
@@ -79,7 +79,7 @@ function initStars() {
         star.style.width = size + 'px';
         star.style.height = size + 'px';
         star.style.left = randomNumber(5, 95) + '%';
-        star.style.top = randomNumber(10, 90) + '%';
+        star.style.top = randomNumber(5, 95) + '%';
         star.style.animationDelay = randomNumber(0, 30) / 10 + 's';
         mainDiv.appendChild(star);
     }
