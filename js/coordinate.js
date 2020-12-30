@@ -173,3 +173,196 @@ Coordinate.makeCoordinates = function(startRow, startColumn, separate){
     coordinates.push(new Coordinate(startX, startY++));
     return coordinates;
 }
+
+Coordinate.makePortraitCoordinates = function(startRow, startColumn, separate){
+    var coordinates=[];
+    startColumn += 3;
+
+    var startX = startRow, startY = startColumn;
+
+    //i
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    startX++;
+
+    //love
+    startColumn -= 3;
+    startX += separate;
+    startY = startColumn +2 ;
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 1;
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 2;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY++;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 2;
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 1;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 9;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 2;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 7;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 3;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 4;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 5;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY ++;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 6;
+    coordinates.push(new Coordinate(startX, startY++));
+    startX++;
+
+    //u
+    startColumn += 3;
+    startX += separate;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 5;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 1;
+    coordinates.push(new Coordinate(startX, startY++));
+    startY += 3;
+    coordinates.push(new Coordinate(startX, startY++));
+
+    startX++;
+    startY = startColumn + 2;
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+    coordinates.push(new Coordinate(startX, startY++));
+
+    return coordinates;
+}

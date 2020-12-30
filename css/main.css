@@ -13,6 +13,7 @@ body {
 .main{
     background-color:  #ffc5b3;
     overflow: hidden;
+    background-image: radial-gradient(#ffeded, #ffc7c7);
 }
 
 .text_bg{

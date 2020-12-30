@@ -4,16 +4,27 @@ function beginImages() {
 
 function makeLargeShape() {
     var mainDiv = document.getElementsByClassName('image_bg')[0];
-    var rows = 13, columns = 30;
     var totalWidth = mainDiv.offsetWidth;
     var totalHeight = mainDiv.offsetHeight;
-    var imageWidth = Math.floor(totalWidth / columns) - 10,
-        imageHeight = Math.floor(totalHeight / rows) - 10;
 
-    // var rows = Math.floor(totalHeight / (imageHeight + 2));
-    // var columns = Math.floor(totalWidth / (imageWidth + 5));
+    var rows = 13, columns = 30;
+    var mode = totalWidth > totalHeight ? 'landscape' : 'portrait';
+    if(mode == 'portrait'){
+        columns = 15;
+        rows = 32;
+    }
+    //x = (w-2cm-2cb)/c; w总高度，c总列数，m marginRight,marginLeft的值, b border的值
+    //y = (h -2mr -4r)/r
+    var imageWidth = Math.floor((totalWidth - columns * 2 * 1 - 2 * columns * 1)/ columns),
+        imageHeight = Math.floor((totalHeight - rows * 2 * 1 - 4 * rows) / rows);
 
-    var coordinates = Coordinate.makeCoordinates(2,1,1);
+    var coordinates = null;
+    if(mode == 'portrait') {
+        coordinates = Coordinate.makePortraitCoordinates(2,1,1);
+    }else{
+        coordinates = Coordinate.makeCoordinates(2,1,1);
+    }
+
     for (var i = 0; i < rows; i++) {
         var imageLine = document.createElement('div');
         imageLine.classList.add('imageLine');
@@ -29,7 +40,8 @@ function makeLargeShape() {
             }
             imageDiv.style.width = imageWidth + 'px';
             imageDiv.style.height = imageHeight + 'px';
-            imageDiv.innerHTML = '<b>' + i + '-' + j + '</b>';
+            // imageDiv.innerHTML = '<b>' + i + '-' + j + '</b>';
+            imageDiv.innerHTML = '<b>' + i + '' + j + '</b>';
             imageLine.appendChild(imageDiv);
         }
     }

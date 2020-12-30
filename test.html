@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .main{
+            position: fixed;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            background-color: #d2c8c5;
+            overflow: hidden;
+        }
+
+        .imageLine {
+            margin: 1px 0px;
+        }
+
+        .blankImage, .image {
+            display: inline-block;
+            margin: 0px 1px;
+            border: 1px solid lavender;
+            border-radius: 5px;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .image {
+            opacity: 1;
+            background-color: #cbc4c5;
+            animation: imageFlexing 3s ease-in infinite
+        }
+
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/coordinate.js"></script>
+</head>
+<body>
+<div class="main">
+    <div class="text_bg"></div>
+    <div class="start_bg"></div>
+    <div class="image_bg"></div>
+</div>
+</body>
+<script type="text/javascript">
+    function makeLargeShape() {
+
+        var mainDiv = document.getElementsByClassName('main')[0];
+        var totalWidth = mainDiv.offsetWidth, totalHeight = mainDiv.offsetHeight;
+        console.log(totalWidth + '=====' + totalHeight);
+
+        var rows = 13, columns = 30;
+        var mode = totalWidth > totalHeight ? 'landscape' : 'portrait';
+
+        if(mode == 'portrait'){
+            columns = 15;
+            rows = 32;
+        }
+        var coordinates = null;
+        if(mode == 'portrait') {
+            coordinates = Coordinate.makePortraitCoordinates(1,1,1);
+        }else{
+            coordinates = Coordinate.makeCoordinates(1,1,1);
+        }
+        //x = (w-2cm-2cb)/c; w总高度，c总列数，m marginRight,marginLeft的值, b border的值
+        //y = (h -2mr -4r)/r
+        var imageWidth = Math.floor((totalWidth - columns * 2 * 1 - 2 * columns * 1)/ columns),
+            imageHeight = Math.floor((totalHeight - rows * 2 * 1 - 4 * rows) / rows);
+
+        for (var i = 0; i < rows; i++) {
+            var imageLine = document.createElement('div');
+            imageLine.classList.add('imageLine');
+            mainDiv.appendChild(imageLine);
+
+            for (var j = 0; j < columns; j++) {
+                var coordinate = new Coordinate(i, j);
+                var imageDiv = document.createElement('div');
+                if(coordinates.containsCoordinate(coordinate)){
+                    imageDiv.classList.add('image');
+                }else{
+                    imageDiv.classList.add('blankImage');
+                }
+                imageDiv.style.width = imageWidth + 'px';
+                imageDiv.style.height = imageHeight + 'px';
+                // imageDiv.innerHTML = '<b>' + i + '-' + j + '</b>';
+                imageDiv.innerHTML = '&nbsp;';
+                imageLine.appendChild(imageDiv);
+            }
+        }
+    }
+    makeLargeShape();
+</script>
+</html>
