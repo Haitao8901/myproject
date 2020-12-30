@@ -25,6 +25,7 @@ function makeLargeShape() {
         coordinates = Coordinate.makeCoordinates(2,1,1);
     }
 
+    var imageUrls = images.slice();
     for (var i = 0; i < rows; i++) {
         var imageLine = document.createElement('div');
         imageLine.classList.add('imageLine');
@@ -40,8 +41,19 @@ function makeLargeShape() {
             }
             imageDiv.style.width = imageWidth + 'px';
             imageDiv.style.height = imageHeight + 'px';
+
+            var imageUrl = imageUrls.shift();
+            if(!imageUrl){
+                imageUrls = images.slice();
+                imageUrl = imageUrls.shift();
+            }
+            imageDiv.style.background = 'transparent url(' + imageUrl + ')  no-repeat';
+            imageDiv.style.backgroundPosition = 'center';
+            imageDiv.style.backgroundSize = 'cover';
+
             // imageDiv.innerHTML = '<b>' + i + '-' + j + '</b>';
-            imageDiv.innerHTML = '<b>' + i + '' + j + '</b>';
+            // imageDiv.innerHTML = '<b>' + i + '' + j + '</b>';
+            imageDiv.innerHTML = '&nbsp;';
             imageLine.appendChild(imageDiv);
         }
     }

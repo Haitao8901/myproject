@@ -9,14 +9,14 @@ var textLines = [
 ];
 
 var images = [
-    'images/avator1',
-    'images/avator2',
-    'images/avator3',
-    'images/avator4',
-    'images/avator5',
-    'images/avator6',
-    'images/avator7',
-    'images/avator8',
-    'images/avator9',
-    'images/avator10'
+    'images/avator1.jpg',
+    'images/avator2.jpg',
+    'images/avator3.jpg',
+    'images/avator4.jpg',
+    'images/avator5.jpg',
+    'images/avator6.jpg',
+    'images/avator7.jpg',
+    'images/avator8.jpg',
+    'images/avator9.jpg',
+    'images/avator10.jpg'
 ];
