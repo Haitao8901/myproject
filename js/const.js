@@ -39,8 +39,8 @@ function initProject(){
     project.width = totalWidth;
     project.height = totalHeight;
     project.mode = totalWidth > totalHeight ? 'landscape' : 'portrait';
-    project.rows = project.mode == 'landscape' ? 13 : 32;
-    project.columns = project.mode == 'landscape' ? 30 : 15;
+    project.rows = project.mode == 'landscape' ? 15 : 35;
+    project.columns = project.mode == 'landscape' ? 32 : 17;
     project.separate = project.mode == 'landscape' ? 1 : 1;
     project.textLines = textLines;
     project.images = images;

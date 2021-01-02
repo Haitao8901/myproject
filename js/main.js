@@ -1,14 +1,8 @@
 function showImageFlows() {
     var imageUrls = project.images.slice();
 
-    function showImage() {
-        var container = project.container;
-        var class_name = project.mode == 'portrait' ? 'center_image_portrait' : 'center_image';
-        var imageDiv = document.getElementsByClassName(class_name)[0];
-
-        if (imageDiv) {
-            container.removeChild(imageDiv);
-        }
+    function beginShowImage(){
+        clearCenterImage(true);
         var imageUrl = imageUrls.shift();
         if (!imageUrl) {
             project.imageEnd = true;
@@ -17,21 +11,38 @@ function showImageFlows() {
             }
             return;
         }
-
-        imageDiv = document.createElement('div');
-        imageDiv.classList.add(project.mode == 'portrait' ? 'center_image_portrait' : 'center_image');
-
-        imageDiv.style.background = 'transparent url(' + imageUrl + ')  no-repeat';
-        imageDiv.style.backgroundPosition = 'center';
-        imageDiv.style.backgroundSize = 'cover';
-
-        imageDiv.classList.add('center_imageFlexing');
-        project.container.appendChild(imageDiv);
-        setTimeout(showImage, 2500);
+        showImage(imageUrl);
+        setTimeout(beginShowImage, 2500);
     }
-
-    showImage();
+    beginShowImage();
 }
+
+function clearCenterImage(clearAll) {
+    var container = project.container;
+    var class_name = project.mode == 'portrait' ? 'center_image_portrait' : 'center_image';
+    var imageDiv = document.getElementsByClassName(class_name)[0];
+
+    if (imageDiv && (clearAll || imageDiv.style.display == 'none')) {
+        container.removeChild(imageDiv);
+    }
+}
+function showImageWhenCLick(imageUrl){
+    clearCenterImage(false);
+    var el = showImage(imageUrl);
+    setTimeout(function(){el.style.display = 'none';},3000);
+}
+
+function showImage(imageUrl) {
+    var imageDiv = document.createElement('div');
+    imageDiv.classList.add(project.mode == 'portrait' ? 'center_image_portrait' : 'center_image');
+    imageDiv.style.background = 'transparent url(' + imageUrl + ')  no-repeat';
+    imageDiv.style.backgroundPosition = 'center';
+    imageDiv.style.backgroundSize = 'cover';
+    imageDiv.classList.add('center_imageFlexing');
+    project.container.appendChild(imageDiv);
+    return imageDiv;
+}
+
 
 function makeLargeShape() {
     var container = project.container;
@@ -50,7 +61,7 @@ function makeLargeShape() {
 
     var coordinates = null;
     if (mode == 'portrait') {
-        coordinates = Coordinate.makePortraitCoordinates(2, 1, 1);
+        coordinates = Coordinate.makePortraitCoordinates(1, 2, 1);
     } else {
         coordinates = Coordinate.makeCoordinates(2, 1, 1);
     }
@@ -71,33 +82,45 @@ function makeLargeShape() {
                 imageUrl = imageUrls.shift();
             }
 
+            imageEl.alt = '';
             if (coordinates.containsCoordinate(coordinate)) {
                 imageEl.classList.add('image');
                 imageEl.src = imageUrl;
-                imageEl.alt = '';
+
+                imageEl.addEventListener('click', function(){
+                    showImageWhenCLick(this.src.replace(/^http:.*(images\/.*)$/ig, '$1'));
+                });
             } else {
                 imageEl.classList.add('blankImage');
                 imageEl.src = 'about:blank';
-                imageEl.alt = '';
             }
             imageEl.style.width = imageWidth + 'px';
             imageEl.style.height = imageHeight + 'px';
+            imageEl.style.animationDelay = randomNumber(0, 30) / 10 + 's';
+
             imageLine.appendChild(imageEl);
         }
     }
+    show_bgText();
     // setTimeout(restart, project.waitingTime);
 }
 
+function show_bgText(){
+    var contentDivBG = document.getElementsByClassName('text_bg')[0];
+    contentDivBG.style.display = 'block';
+}
+
 function beginTyping() {
-    var contentDiv = document.getElementsByClassName('text_bg')[0];
-    var content, lineEl;
+    var contentDiv = document.getElementsByClassName('text_front')[0];
+    var contentDivBG = document.getElementsByClassName('text_bg')[0];
+    var content, lineEl, cloneLineEl;
     var textLines = project.textLines.slice();
 
     function typing() {
         if (!content) {
             var textLine = textLines.shift();
             var class_name = project.mode == 'portrait' ? 'line' : 'line';
-            var lineEls = document.getElementsByClassName(class_name);
+            var lineEls = contentDiv.childNodes;
             if (!textLine || lineEls.length == project.showLines) {
                 var length = lineEls.length < project.showLines ? lineEls.length : project.showLines;
                 for (var i = 0; i < length; i++) {
@@ -107,6 +130,7 @@ function beginTyping() {
 
             if (!textLine) {
                 project.textEnd = true;
+                contentDiv.style.display = 'none';
                 if (project.imageEnd) {
                     setTimeout(makeLargeShape, 1000);
                 }
@@ -116,6 +140,11 @@ function beginTyping() {
             lineEl = document.createElement('div');
             lineEl.classList.add('line');
             contentDiv.appendChild(lineEl);
+
+            cloneLineEl = lineEl.cloneNode(true);
+            cloneLineEl.classList.remove('line');
+            cloneLineEl.classList.add('bg_line');
+            contentDivBG.appendChild(cloneLineEl);
         }
         var text = content.shift();
         if (text) {
@@ -125,6 +154,11 @@ function beginTyping() {
             span.style.animationDelay = randomNumber(0, 30) / 10 + 's';
             span.innerHTML = text.trim() ? text : '&nbsp;';
             lineEl.appendChild(span);
+
+            var bgNode = span.cloneNode(true);
+            bgNode.classList.remove('text');
+            bgNode.classList.add('bg_text');
+            cloneLineEl.appendChild(bgNode);
         } else {
             content = null;
         }
@@ -172,6 +206,15 @@ function restart() {
     for (var i = 0; i < length; i++) {
         project.container.removeChild(imageLines[0]);
     }
+
+    var contentDivBG = document.getElementsByClassName('text_bg')[0];
+    var class_name = project.mode == 'portrait' ? 'line' : 'line';
+    var textLineEls = document.getElementsByClassName(class_name);
+    length = textLineEls.length;
+        for (var i = 0; i < length; i++) {
+            contentDivBG.removeChild(textLineEls[0]);
+    }
+
     project.imageEnd = false;
     project.textEnd = false;
 
@@ -187,5 +230,6 @@ document.addEventListener('readystatechange', function (evt) {
             beginTyping();
             showImageFlows();
         }, 1000);
+        setInterval(clearCenterImage, 1000);
     }
 }, false)
