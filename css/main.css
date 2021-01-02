@@ -10,13 +10,13 @@ body {
     right: 0px;
 }
 
-.main{
-    background-color:  #ffc5b3;
+.main {
+    background-color: #ffc5b3;
     overflow: hidden;
     background-image: radial-gradient(#ffeded, #ffc7c7);
 }
 
-.text_bg{
+.text_bg {
     position: absolute;
     background: transparent;
     top: 15%;
@@ -45,7 +45,7 @@ body {
 }
 
 .imageLine {
-    margin: 1px 0px;
+    margin: 1px 4px;
 }
 
 .blankImage, .image {
@@ -60,7 +60,7 @@ body {
 .image {
     opacity: 1;
     background-color: pink;
-    animation: imageFlexing 3s ease-in infinite
+    /*animation: imageFlexing 3s ease-in infinite;*/
 }
 
 .image:hover {
@@ -76,30 +76,75 @@ body {
 }
 
 .star::before,
-.star::after{
-    content:'';
-    width:100%;
-    height:100%;
-    background-color:#cc2a5d;
+.star::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: #cc2a5d;
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     border-radius: 50%;
 }
-.star::before{
+
+.star::before {
     transform: translateX(-50%);
 }
-.star::after{
+
+.star::after {
     transform: translateY(-50%);
 }
 
-@keyframes imageHover {
+
+.center_image {
+    position: fixed;
+    border-radius: 5px;
+    top: 30%;
+    bottom: 30%;
+    right: 35%;
+    left: 35%;
+}
+
+.center_image_portrait {
+    position: fixed;
+    border-radius: 5px;
+    top: 45%;
+    bottom: 30%;
+    right: 27%;
+    left: 30%;
+}
+
+.center_imageFlexing {
+    animation: centerImageFlexing 3s ease-in 1;
+}
+
+.project_audio {
+    position: fixed;
+    bottom: 0;
+    left: 25%;
+
+}
+
+@keyframes centerImageFlexing {
     0% {
         transform: scale(1);
     }
 
     100% {
-        transform: scale(3.5);
+        transform: scale(2.5);
+    }
+}
+
+@keyframes imageHover {
+    0% {
+        position: absolute;
+    }
+
+    100% {
+        position: fixed;
+
+        width:300px;
+        height:300px;
     }
 }
 

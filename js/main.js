@@ -1,72 +1,115 @@
-function beginImages() {
+function showImageFlows() {
+    var imageUrls = project.images.slice();
 
+    function showImage() {
+        var container = project.container;
+        var class_name = project.mode == 'portrait' ? 'center_image_portrait' : 'center_image';
+        var imageDiv = document.getElementsByClassName(class_name)[0];
+
+        if (imageDiv) {
+            container.removeChild(imageDiv);
+        }
+        var imageUrl = imageUrls.shift();
+        if (!imageUrl) {
+            project.imageEnd = true;
+            if (project.textEnd) {
+                setTimeout(makeLargeShape, 1000);
+            }
+            return;
+        }
+
+        imageDiv = document.createElement('div');
+        imageDiv.classList.add(project.mode == 'portrait' ? 'center_image_portrait' : 'center_image');
+
+        imageDiv.style.background = 'transparent url(' + imageUrl + ')  no-repeat';
+        imageDiv.style.backgroundPosition = 'center';
+        imageDiv.style.backgroundSize = 'cover';
+
+        imageDiv.classList.add('center_imageFlexing');
+        project.container.appendChild(imageDiv);
+        setTimeout(showImage, 2500);
+    }
+
+    showImage();
 }
 
 function makeLargeShape() {
-    var mainDiv = document.getElementsByClassName('image_bg')[0];
-    var totalWidth = mainDiv.offsetWidth;
-    var totalHeight = mainDiv.offsetHeight;
+    var container = project.container;
+    var totalWidth = project.width;
+    var totalHeight = project.height;
 
-    var rows = 13, columns = 30;
-    var mode = totalWidth > totalHeight ? 'landscape' : 'portrait';
-    if(mode == 'portrait'){
-        columns = 15;
-        rows = 32;
-    }
+    var rows = project.rows;
+    var columns = project.columns;
+    var mode = project.mode;
+    var images = project.images;
+
     //x = (w-2cm-2cb)/c; w总高度，c总列数，m marginRight,marginLeft的值, b border的值
     //y = (h -2mr -4r)/r
-    var imageWidth = Math.floor((totalWidth - columns * 2 * 1 - 2 * columns * 1)/ columns),
+    var imageWidth = Math.floor((totalWidth - 8 - columns * 2 * 1 - 2 * columns * 1) / columns),
         imageHeight = Math.floor((totalHeight - rows * 2 * 1 - 4 * rows) / rows);
 
     var coordinates = null;
-    if(mode == 'portrait') {
-        coordinates = Coordinate.makePortraitCoordinates(2,1,1);
-    }else{
-        coordinates = Coordinate.makeCoordinates(2,1,1);
+    if (mode == 'portrait') {
+        coordinates = Coordinate.makePortraitCoordinates(2, 1, 1);
+    } else {
+        coordinates = Coordinate.makeCoordinates(2, 1, 1);
     }
 
     var imageUrls = images.slice();
     for (var i = 0; i < rows; i++) {
         var imageLine = document.createElement('div');
         imageLine.classList.add('imageLine');
-        mainDiv.appendChild(imageLine);
+        container.appendChild(imageLine);
 
         for (var j = 0; j < columns; j++) {
             var coordinate = new Coordinate(i, j);
-            var imageDiv = document.createElement('div');
-            if(coordinates.containsCoordinate(coordinate)){
-                imageDiv.classList.add('image');
-            }else{
-                imageDiv.classList.add('blankImage');
-            }
-            imageDiv.style.width = imageWidth + 'px';
-            imageDiv.style.height = imageHeight + 'px';
+            var imageEl = document.createElement('img');
 
             var imageUrl = imageUrls.shift();
-            if(!imageUrl){
+            if (!imageUrl) {
                 imageUrls = images.slice();
                 imageUrl = imageUrls.shift();
             }
-            imageDiv.style.background = 'transparent url(' + imageUrl + ')  no-repeat';
-            imageDiv.style.backgroundPosition = 'center';
-            imageDiv.style.backgroundSize = 'cover';
 
-            // imageDiv.innerHTML = '<b>' + i + '-' + j + '</b>';
-            // imageDiv.innerHTML = '<b>' + i + '' + j + '</b>';
-            imageDiv.innerHTML = '&nbsp;';
-            imageLine.appendChild(imageDiv);
+            if (coordinates.containsCoordinate(coordinate)) {
+                imageEl.classList.add('image');
+                imageEl.src = imageUrl;
+                imageEl.alt = '';
+            } else {
+                imageEl.classList.add('blankImage');
+                imageEl.src = 'about:blank';
+                imageEl.alt = '';
+            }
+            imageEl.style.width = imageWidth + 'px';
+            imageEl.style.height = imageHeight + 'px';
+            imageLine.appendChild(imageEl);
         }
     }
+    // setTimeout(restart, project.waitingTime);
 }
 
 function beginTyping() {
     var contentDiv = document.getElementsByClassName('text_bg')[0];
     var content, lineEl;
+    var textLines = project.textLines.slice();
 
     function typing() {
         if (!content) {
             var textLine = textLines.shift();
+            var class_name = project.mode == 'portrait' ? 'line' : 'line';
+            var lineEls = document.getElementsByClassName(class_name);
+            if (!textLine || lineEls.length == project.showLines) {
+                var length = lineEls.length < project.showLines ? lineEls.length : project.showLines;
+                for (var i = 0; i < length; i++) {
+                    contentDiv.removeChild(lineEls[0]);
+                }
+            }
+
             if (!textLine) {
+                project.textEnd = true;
+                if (project.imageEnd) {
+                    setTimeout(makeLargeShape, 1000);
+                }
                 return;
             }
             content = textLine.split('');
@@ -92,9 +135,7 @@ function beginTyping() {
 }
 
 function initStars() {
-    var mainDiv = document.getElementsByClassName('start_bg')[0];
-    var totalWidth = mainDiv.offsetWidth;
-    var count = totalWidth / 60 * 6;
+    var count = project.width / 60 * 6;
 
     for (var i = 0; i < count; i++) {
         var size = parseInt('' + randomNumber(60, 120) / 10);
@@ -105,8 +146,18 @@ function initStars() {
         star.style.left = randomNumber(5, 95) + '%';
         star.style.top = randomNumber(5, 95) + '%';
         star.style.animationDelay = randomNumber(0, 30) / 10 + 's';
-        mainDiv.appendChild(star);
+        project.container.appendChild(star);
     }
+}
+
+function initMusic() {
+    var audio = document.createElement('audio');
+    audio.classList.add('project_audio');
+    audio.controls = true;
+    audio.autoplay = true;
+    audio.loop = true;
+    audio.src = project.musicSrc;
+    project.container.appendChild(audio);
 }
 
 function randomNumber(min, max) {
@@ -115,8 +166,26 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-$(function () {
-    initStars();
-    setTimeout(beginTyping, 1000);
-    setTimeout(makeLargeShape, 1000);
-});
+function restart() {
+    var imageLines = document.getElementsByClassName('imageLine');
+    var length = imageLines.length;
+    for (var i = 0; i < length; i++) {
+        project.container.removeChild(imageLines[0]);
+    }
+    project.imageEnd = false;
+    project.textEnd = false;
+
+    beginTyping();
+    showImageFlows();
+}
+
+document.addEventListener('readystatechange', function (evt) {
+    if (document.readyState == 'complete') {
+        initStars();
+        setTimeout(function () {
+            initMusic();
+            beginTyping();
+            showImageFlows();
+        }, 1000);
+    }
+}, false)
